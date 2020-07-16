@@ -1,0 +1,35 @@
+{
+  "name": "palette_world",
+  "version": "1.0.0",
+  "description": "a world full of color",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build index.html",
+    "dev": "parcel index.html"
+  },
+  "author": "Delete Studios",
+  "license": "ISC",
+  "dependencies": {
+    "colorthief": "^2.3.2",
+    "mapbox-gl": "^1.11.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "parcel": "^1.12.4"
+  },
+  "browserslist": {
+    "production": [
+      "last 3 chrome versions",
+      "last 3 firefox versions",
+      "last 3 safari versions"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
