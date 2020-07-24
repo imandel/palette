@@ -2,6 +2,8 @@ import mapboxgl from 'mapbox-gl';
 import ColorThief from 'colorthief';
 import { point } from '@turf/helpers';
 import * as bearing from '@turf/bearing';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 const angles = [-90, 90];
 
@@ -35,6 +37,15 @@ const map = new mapboxgl.Map({
   center: [-73.946382, 40.724478],
   zoom: 12,
 });
+
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl,
+  marker: false,
+});
+
+map.addControl(geocoder);
+
 map.addControl(
   new mapboxgl.GeolocateControl({
     positionOptions: {
