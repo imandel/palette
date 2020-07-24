@@ -11,6 +11,9 @@
   "author": "Delete Studios",
   "license": "ISC",
   "dependencies": {
+    "@turf/bearing": "^6.0.1",
+    "@turf/helpers": "^6.1.4",
+    "@turf/invariant": "^6.1.2",
     "colorthief": "^2.3.2",
     "mapbox-gl": "^1.11.1"
   },

@@ -1,5 +1,9 @@
 import mapboxgl from 'mapbox-gl';
 import ColorThief from 'colorthief';
+import { point } from '@turf/helpers';
+import * as bearing from '@turf/bearing';
+
+const angles = [-90, 90];
 
 const colorThief = new ColorThief();
 const img = new Image();
@@ -41,17 +45,17 @@ map.addControl(
 );
 
 map.on('click', (e) => {
-  fetch(`https://a.mapillary.com/v3/images?closeto=${e.lngLat.lng},${e.lngLat.lat}&radius=200&client_id=WE9TUWdsODlUOUtpZHhMS0paMFRkQTpjNWJmMjA1MDJhOTM4Y2I0&per_page=20`)
+  const url = `https://roads.googleapis.com/v1/snapToRoads?path=${e.lngLat.lat},${e.lngLat.lng}|${e.lngLat.lat - 0.0001},${e.lngLat.lng + 0.0001}|${e.lngLat.lat + 0.0001},${e.lngLat.lng - 0.0001}&key=AIzaSyC-i4qmwLxEasUeNjyFlOMcH4frsK98kaM`;
+  let imgURL;
+  fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      if (data.features.length > 0) {
-        const { key } = data.features[Math.floor(Math.random() * data.features.length)].properties || undefined;
-        img.src = `https://images.mapillary.com/${key}/thumb-320.jpg`;
-      } else {
-        const curPallete = [...palette.childNodes];
-        initPalette.forEach((color, i) => {
-          curPallete[i].style.backgroundColor = color;
-        });
+      if (data.snappedPoints.length > 1) {
+        const p1 = point([data.snappedPoints[0].location.longitude, data.snappedPoints[0].location.latitude]);
+        const p2 = point([data.snappedPoints[1].location.longitude, data.snappedPoints[1].location.latitude]);
+        const roadHeading = bearing.default(p1, p2);
+        imgURL = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${e.lngLat.lat},${e.lngLat.lng}&source=outdoor&fov=90&key=AIzaSyC-i4qmwLxEasUeNjyFlOMcH4frsK98kaM&pitch=12&heading=${roadHeading + angles[Math.floor(Math.random() * angles.length)]}`;
+        img.src = imgURL;
       }
     });
 });
